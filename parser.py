@@ -27,6 +27,9 @@ def writetofile(lines, output, extension):
     # lines is list of line, output is where to write this parsed output generally .asm
     with open(f"{output}.{extension}", "w") as f:
         for indx, line in enumerate(lines):
+            print(f"writing {line}")
+            if(line==''):
+                continue
             line = line.rstrip()
             line = line.lstrip()
             if(indx==len(lines)-1):
@@ -48,8 +51,12 @@ def Parse(filename):
     Preprocess(filename)
     lines=[]
     with open(f'{filename}.asm', 'r') as f:
-        lines = [line for line in f]
+        lines = [line.rstrip() for line in f]
         for ind, line in enumerate(lines):
+            # print(f"line = {line}, line[-1] = {line[-1]}")
+            if(line[0]=='(' and line[-1]==')'):
+                lines[ind]=''
+                continue
             if(line[0]=='@'):
                 BinaryOp = Deal_A_Instruction(line)
                 lines[ind]=BinaryOp
