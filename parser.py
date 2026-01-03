@@ -56,11 +56,16 @@ def Parse(filename):
             if(line[0]=='@'):
                 BinaryOp = Deal_A_Instruction(line)
                 lines[ind]=BinaryOp
+            else:
+                BinaryOp = Deal_with_C_instruction(line)
+                lines[ind]=BinaryOp
     print(lines)
     writetofile(lines, f'{filename}', 'hack')
 
 
 def Preprocess_c_instruction(line):
+    line = line.rstrip()
+    line = line.lstrip()
     p2=line
     try:
         dest, p2 = line.split("=")
@@ -71,6 +76,7 @@ def Preprocess_c_instruction(line):
         comp, jump = p2.split(";")
     except ValueError as e:
         line = line+";"
+    
     return line
         
 
@@ -84,7 +90,9 @@ def Deal_with_C_instruction(line):
     dest_bits = find_destination_bits(dest)
     # identify the comp bits
     # "=<comp>;"
-
+    comp_bits, a = find_Comp_bits(comp)
+    jump_bits = find_jump_bits(jump)
+    return f"111{a}{comp_bits}{dest_bits}{jump_bits}"
 
 
 def find_destination_bits(dest):
@@ -102,30 +110,30 @@ def find_destination_bits(dest):
 
 def find_Comp_bits(comp):
     d = {
-        "0":"101010",
-        "1":"111111",
-        "-1":"111010",
-        "D":"001100",
+        "0":["101010", 0],
+        "1":["111111", 0],
+        "-1":["111010", 0],
+        "D":["001100", 0],
 
         "A":["110000", 0],
         "M":["110000", 1],
         
-        "!D":"001101",
+        "!D":["001101", 0],
         
         "!A":["110001", 0],
         "!M":["110001", 1],
         
-        "-D":"001111",
+        "-D":["001111", 0],
         
         "-A":["110011", 0],
         "-M":["110011", 1],
 
-        "D+1":"011111",
+        "D+1":["011111", 0],
         
         "A+1":["110111", 0],
         "M+1":["110111", 1],
 
-        "D-1":"001110",
+        "D-1":["001110", 0],
 
         "A-1":["110010", 0],
         "M-1":["110010", 1],
@@ -146,3 +154,16 @@ def find_Comp_bits(comp):
         "D|M":["010101", 1],
     }
     return d[comp]
+
+def find_jump_bits(jump):
+    d = {
+        "":"000",
+        "JGT":"001",
+        "JEQ":"010",
+        "JGE":"011",
+        "JLT":"100",
+        "JNE":"101",
+        "JLE":"110",
+        "JMP":"111"
+    }
+    return d[jump]
