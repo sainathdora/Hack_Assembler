@@ -26,11 +26,9 @@ def Preprocess(filename): #filename.asm
 def writetofile(lines, output, extension):
     # lines is list of line, output is where to write this parsed output generally .asm
     with open(f"{output}.{extension}", "w") as f:
-        print(f"writing to {output}.{extension}")
         for indx, line in enumerate(lines):
             line = line.rstrip()
             line = line.lstrip()
-            print(f"writing {line}")
             if(indx==len(lines)-1):
                 f.write(line)
             else:
@@ -43,7 +41,6 @@ def Deal_A_Instruction(line):
     # num = (<integer>) base-10
     num = format(int(num), '015b')
     res = res+num
-    print(f"len = {len(res)}")
     return res
     # num is now in binary
 
@@ -59,7 +56,6 @@ def Parse(filename):
             else:
                 BinaryOp = Deal_with_C_instruction(line)
                 lines[ind]=BinaryOp
-    print(lines)
     writetofile(lines, f'{filename}', 'hack')
 
 
