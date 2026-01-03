@@ -13,5 +13,23 @@ with open("WhiteSpace.asm", "r") as f:
             cnt +=1
             name_of_symbol = line[1:-1]
             ST[name_of_symbol] = (i-cnt)+1
-         
+    
+    # second pass: set n=16, if instruction is a symbol then look up ST
+    # if ST[symbol] found then use it for translation
+    n=16
+    print(f"running Pass 2")
+    for i, line in enumerate(lines):
+        # print(f"line = {line}")
+        if(line[0]=='@'):
+            if ST.get(line[1:]):
+                # already known value
+                print(f"known = {ST.get(line[1:])}")
+                lines[i] = ST.get(line[1:])
+            else:
+                # add this value to ST and replace it with known value
+                ST[line[1:]]=n
+                n+=1
+    for i in ST:
+        print(f"{i} : {ST[i]}")
+
 # Parse("WhiteSpace") 
