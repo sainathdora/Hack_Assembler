@@ -1,41 +1,27 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/6/rect/Rect.asm
-
-// Draws a rectangle at the top-left corner of the screen.
-// The rectangle is 16 pixels wide and R0 pixels high.
-// Usage: Before executing, put a value in R0.
-
-   // If (R0 <= 0) goto END else n = R0
-   @R0
-   D=M
-   @END
-   D;JLE 
-   @n
-   M=D
-   // addr = base address of first screen row
-   @SCREEN
-   D=A
-   @addr
-   M=D
+@16
+D=M
+@17
+D;JLE
+@18
+M=D
+@19
+D=A
+@20
+M=D
 (LOOP)
-   // RAM[addr] = -1
-   @addr
-   A=M
-   M=-1
-   // addr = base address of next screen row
-   @addr
-   D=M
-   @32
-   D=D+A
-   @addr
-   M=D
-   // decrements n and loops
-   @n
-   MD=M-1
-   @LOOP
-   D;JGT
+@20
+A=M
+M=-1
+@20
+D=M
+@21
+D=D+A
+@20
+M=D
+@18
+MD=M-1
+@22
+D;JGT
 (END)
-   @END
-   0;JMP
+@17
+0;JMP
