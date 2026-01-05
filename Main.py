@@ -50,4 +50,8 @@ print("\n")
 print(lines_lst, end="\n\n")
 print(lines_lst2)
 # Now worry about translation of instruction
-print(parser.Preprocess_c_instruction('D=M'))
+binary_instructions=[]
+for line in lines_lst2:
+    binary_instructions.append(parser.parse(line))
+with open('dummy.hack', 'w') as f:
+    f.write("\n".join(binary_instructions))

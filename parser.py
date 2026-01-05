@@ -8,6 +8,7 @@ def parse(line):
         # preprocess c-instruction
         dest, comp, jmp = Preprocess_c_instruction(line)
         binary_ins = deal_with_C_Instruction(dest, comp, jmp)
+    return binary_ins
         
 
 def Preprocess_c_instruction(line):
