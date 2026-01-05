@@ -2,7 +2,7 @@
 
 <p>
 This project is an implementation of an <strong>Assembler for the Hack computer</strong>,
-as defined in the <em>Nand2Tetris</em> course.
+as defined in the <em>Nand2Tetris</em> Book.
 The assembler translates Hack assembly language (<code>.asm</code>) programs
 into Hack machine language (<code>.hack</code>) binary instructions.
 </p>
